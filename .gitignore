@@ -20,4 +20,4 @@ include/
 include/*
 
 venv/
-.vscode
+.vscode/
