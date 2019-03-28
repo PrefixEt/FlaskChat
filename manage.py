@@ -1,7 +1,7 @@
 import os
 from flask_script import Manager
-from config import DevelopmentConfig, ProductionConfig
 from app import create_app
+
 
 app = create_app()
 app.config.from_object(os.environ['APP_SETTINGS'])

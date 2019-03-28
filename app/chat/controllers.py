@@ -13,23 +13,23 @@ module = Blueprint('chat', __name__, url_prefix='/')
 
 
 @module.route('/')
-@module.route('/index.html' methods=['GET', 'POST'])
+@module.route('/index.html', methods=['GET', 'POST'])
 def index():
-    if request.method = 'POST':
+    if request.method == 'POST':
         pass
-    pass
+    return "index.html"
 
 
-@module.route('/sign_in' methods=['GET','POST'])
+@module.route('/sign_in', methods=['GET','POST'])
 def sign_in():
-    if request.method = 'POST':
+    if request.method == 'POST':
         pass
-    pass
+    return render_template('chat/sign_in.html')
 
 
 
-@module.route('/sign_up'  methods=['GET','POST']
+@module.route('/sign_up',  methods=['GET','POST'])
 def sign_up():
-    pass
+    return "<h1>sign_up</h1>"
 
 
