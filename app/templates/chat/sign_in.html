@@ -6,8 +6,8 @@
 
 <form id = "sign_in" method = "POST">
   <div class="form-group">
-    <label for="InputEmail">Email</label>
-    <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+    <label for="email">Email</label>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
     <small id="emailHelp" class="form-text text-muted">Введите ваш адресс электронной почты</small>
   </div>
 
@@ -16,8 +16,11 @@
     <input type="password" class="form-control" id="password" placeholder="Password">
   </div>
 
-  <small>Нет аккаунта? Пройдите <a href="/sing_up">регистрацию</a></small>
-  <button type="submit" class="btn btn-primary">Submit</button>
+
+  <div class="form-group">  
+  <button type="submit" class="btn btn-primary">регистрация</button>
+  <small id="SignUpHelp" class="form-text text-muted">Нет аккаунта? Пройдите <a href="/sign_up">регистрацию</a></small>
+  </div>
 </form>
 
 {% endblock content %}

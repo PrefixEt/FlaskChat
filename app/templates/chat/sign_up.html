@@ -1,11 +1,23 @@
 
+
+{% extends "base.html" %}
+
+
+
 {% block content %}
 
 <form id = "sign_up" method = "POST">
 
   <div class="form-group" method="POST">
-    <label for="exampleInputEmail1">Email</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <label for="email">Email</label>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+    <small id="emailHelp" class="form-text text-muted">Введите ваш адресс электронной почты</small>
+  </div>
+
+
+  <div class="form-group" method="POST">
+    <label for="username">Введите имя по которому вас будут видеть другие участники</label>
+    <input type="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="username">
     <small id="emailHelp" class="form-text text-muted">Введите ваш адресс электронной почты</small>
   </div>
 
@@ -15,17 +27,17 @@
   </div>
 
   <div class="form-group">
-    <label for="exampleInputPasrepeat_passwordsword1">Повторите пароль</label>
+    <label for="repeat_password">Повторите пароль</label>
     <input type="password" class="form-control" id="repeat_password" placeholder="Repeat Password">
   </div>
 
   <div class="form-group">
-    <label for="description">Расскажите о себе</label>
+    <label for="description">Расскажите о себе(Или не рассказывайте)</label>
     <textarea class="form-control" id="description" rows="3"></textarea>
   </div>
 
   <button type="submit" class="btn btn-primary" value="Submit">Регистрация</button>
-  <small id="emailHelp" class="form-text text-muted">Есть акаунт? Чудно. Войдите <a href="/sing_in">здесь</a>.</small>
+  <small id="SignInHelp" class="form-text text-muted">Есть аккаунт? Чудно. Войдите <a href="/sign_in">здесь</a>.</small>
 </form>
 
 {% endblock content %}

@@ -11,6 +11,7 @@ def create_app():
     with app.test_request_context():
         db.create_all()
 
+
     import app.chat.controllers as chat
 
     app.register_blueprint(chat.module)

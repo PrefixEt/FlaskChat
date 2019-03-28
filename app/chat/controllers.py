@@ -23,13 +23,18 @@ def index():
 @module.route('/sign_in', methods=['GET','POST'])
 def sign_in():
     if request.method == 'POST':
-        pass
+        print(request.form.get('password'))
     return render_template('chat/sign_in.html')
 
 
 
 @module.route('/sign_up',  methods=['GET','POST'])
 def sign_up():
-    return "<h1>sign_up</h1>"
+    if request.method == "POST":
+        pass
+    return render_template('chat/sign_up.html')
+
+
+
 
 
