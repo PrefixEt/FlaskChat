@@ -7,8 +7,8 @@ from flask import (
     redirect,
     url_for,
 )
-
-
+from .forms import LoginForm, RegistrationForm
+from .models import User, Messages
 module = Blueprint('chat', __name__, url_prefix='/')
 
 
@@ -22,16 +22,19 @@ def index():
 
 @module.route('/sign_in', methods=['GET','POST'])
 def sign_in():
-    if request.method == 'POST':
+    form = LoginForm(request.form)
+    if request.method == 'POST' and form.validate():
         print(request.form.get('password'))
-    return render_template('chat/sign_in.html')
+    return render_template('chat/sign_in.html', form=form)
 
 
 
 @module.route('/sign_up',  methods=['GET','POST'])
 def sign_up():
-    if request.method == "POST":
-        pass
+    form=RegistrationForm(request.form)
+    if request.method == "POST" and form.validate():
+                
+        print(dict(request.form))
     return render_template('chat/sign_up.html')
 
 
