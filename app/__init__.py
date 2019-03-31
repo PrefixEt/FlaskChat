@@ -1,11 +1,13 @@
 import os
 from flask import Flask
-from .database import db
+
+from .database import db, login
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(os.environ['APP_SETTINGS'])
+    login.init_app(app)
     db.init_app(app)
 
     with app.test_request_context():

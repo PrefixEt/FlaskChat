@@ -20,7 +20,12 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User: {} >'.format(self.username)
-        
+    
+    def valid_pass(self, password):
+        if password:
+            return self.password_hash == self.password_to_hash(password)
+        return False
+
     @staticmethod    
     def password_to_hash(pas):
         return hashlib.sha224(pas.encode()).hexdigest()

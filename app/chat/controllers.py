@@ -7,6 +7,7 @@ from flask import (
     redirect,
     url_for,
 )
+from flask_login import current_user, login_user
 from .forms import LoginForm, RegistrationForm
 from .models import User, Messages
 module = Blueprint('chat', __name__, url_prefix='/')
@@ -43,7 +44,13 @@ def sign_up():
 
 def registration_user(user_form):
     form = user_form
-    
+    try:            
+        user = User.query.filter_by(email = form.email).first()
+        if user:
+            flash(u'Email занят, выбирите другой(пожалуйста)')          
+        else:
+
+
 
 
 
@@ -52,15 +59,14 @@ def sign_in_user(user_form):
     form = user_form
     try:            
         user = User.query.filter_by(email = form.email).first()
-        if user:
-            hashpass = User.password_to_hash(form.password)
-            if hashpass == user.password_hash:
-                flash('Аутентификация успешна. Добро пожаловать {}, мы без вас скучали.'.format(user.username))
+        if user:            
+            if user.valid_pass(form.password):
+                flash(u'Аутентификация успешна. Добро пожаловать {}, мы без вас скучали.'.format(user.username))
                 return redirect('/')
             else:
-                flash('Пароль неверен')
+                flash(u'Пароль неверен')
         else:
-            flash('Email не зарегестрирован')
+            flash(u'Email не зарегестрирован')
     except:
-        flash('Произошло что то странное со стороны сервера.')
+        flash(u'Произошло что то странное со стороны сервера.')
 

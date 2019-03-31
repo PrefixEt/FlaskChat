@@ -22,4 +22,5 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField(u'Зарегистрироваться')
 
 class UserCard(FlaskForm):
-    pass
+        username = StringField(u'Пользователь:')
+        description = TextAreaField(u'Краткий дескрипшен нашего героя:')
