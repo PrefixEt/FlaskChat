@@ -23,8 +23,8 @@ def index():
 @module.route('/sign_in', methods=['GET','POST'])
 def sign_in():
     form = LoginForm(request.form)
-    if request.method == 'POST' and form.validate():
-        print(request.form.get('password'))
+    if form.validate_on_submit():
+        sign_in_user(form)
     return render_template('chat/sign_in.html', form=form)
 
 
@@ -32,12 +32,35 @@ def sign_in():
 @module.route('/sign_up',  methods=['GET','POST'])
 def sign_up():
     form=RegistrationForm(request.form)
-    if request.method == "POST" and form.validate():
+    if form.validate_on_submit():
                 
         print(dict(request.form))
-    return render_template('chat/sign_up.html')
+    return render_template('chat/sign_up.html', form=form)
 
 
 
 
+
+def registration_user(user_form):
+    form = user_form
+    
+
+
+
+
+def sign_in_user(user_form):
+    form = user_form
+    try:            
+        user = User.query.filter_by(email = form.email).first()
+        if user:
+            hashpass = User.password_to_hash(form.password)
+            if hashpass == user.password_hash:
+                flash('Аутентификация успешна. Добро пожаловать {}, мы без вас скучали.'.format(user.username))
+                return redirect('/')
+            else:
+                flash('Пароль неверен')
+        else:
+            flash('Email не зарегестрирован')
+    except:
+        flash('Произошло что то странное со стороны сервера.')
 

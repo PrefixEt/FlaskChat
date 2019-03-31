@@ -6,37 +6,37 @@
 
 {% block content %}
 
-<form id = "sign_up" method = "POST" action="{{ url_for('chat.sign_up') }}">
-
+<form id = "sign_up" method = "POST" action="">
+    {{ form.csrf_token }}
   <div class="form-group" method="POST">
-    <label for="email">Email</label>
-    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" name = "email" value = "{{ request.form.get('email', '') }}">
+      {{ form.email.label }}
+      {{ form.email(class_='form-control') }}
     <small id="emailHelp" class="form-text text-muted">Введите ваш адресс электронной почты</small>
   </div>
 
 
   <div class="form-group" method="POST">
-    <label for="username">Введите имя по которому вас будут видеть другие участники</label>
-    <input type="username" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="username" name = "username" value = "{{ request.form.get('username', '') }}">
-    <small id="emailHelp" class="form-text text-muted">Введите ваш адресс электронной почты</small>
+      {{ form.username.label }}
+      {{ form.username(class_='form-control') }}
+    <small id="emailHelp" class="form-text text-muted">Выберите себе любое имя.</small>
   </div>
 
   <div class="form-group">
-    <label for="password_input">Пароль</label>
-    <input type="password" class="form-control" id="password_input" placeholder="Password" name = "password" value = "">
+      {{ form.password.label }}
+      {{ form.password(class_='form-control') }}
   </div>
 
   <div class="form-group">
-    <label for="repeat_password">Повторите пароль</label>
-    <input type="password" class="form-control" id="repeat_password" placeholder="Repeat Password" name = "repeat_password" value = "">
+      {{ form.password_repeat.label }}
+      {{ form.password_repeat(class_='form-control') }}
   </div>
 
   <div class="form-group">
-    <label for="description">Расскажите о себе(Или не рассказывайте)</label>
-    <textarea class="form-control" id="description" rows="3" name = "description" value = "{{ request.form.get('description', '') }}"></textarea>
+      {{ form.description.label }}
+      {{ form.description(class_='form-control') }}
   </div>
 
-  <button type="submit" class="btn btn-primary" value="Submit">Регистрация</button>
+  {{ form.submit(class_ = 'btn btn-primary') }}
   <small id="SignInHelp" class="form-text text-muted">Есть аккаунт? Чудно. Войдите <a href="/sign_in">здесь</a>.</small>
 </form>
 
