@@ -10,6 +10,7 @@ from flask import (
 from flask_login import current_user, login_user
 from .forms import LoginForm, RegistrationForm
 from .models import User, Messages
+from app.database import db
 module = Blueprint('chat', __name__, url_prefix='/')
 
 
@@ -23,6 +24,8 @@ def index():
 
 @module.route('/sign_in', methods=['GET','POST'])
 def sign_in():
+    if current_user.is_authenticated:
+        return redirect('index')
     form = LoginForm(request.form)
     if form.validate_on_submit():
         sign_in_user(form)
@@ -39,39 +42,40 @@ def sign_up():
     return render_template('chat/sign_up.html', form=form)
 
 
-
-
-
 def registration_user(user_form):
     form = user_form
     try:            
-        user = User.query.filter_by(email = form.email).first()
+        user = User.query.filter_by(email = form.email.data).first()
         if user:
             flash(u'Email занят, выбирите другой(пожалуйста)')          
         else:
             registration_user=User(
-                email=form.email,
-                username=form.username,
-                password_hash=form.password,
-                description=form.description
+                email=form.email.data,
+                username=form.username.data,
+                password_hash=form.password.data,
+                description=form.description.data
                 )
-            registration_user.commit()
-    except:
-        pass
-
-def sign_in_user(user_form):
-    form = user_form
-    try:            
-        user = User.query.filter_by(email = form.email).first()
-        if user:            
-            if user.valid_pass(form.password):
-                flash(u'Аутентификация успешна. Добро пожаловать {}, мы без вас скучали.'.format(user.username), 'Успеъх')
-                return redirect('/')
-            else:
-                flash(u'Пароль неверен', u'ОЙ')
-        else:
-            flash(u'Email не зарегестрирован', u'Ай')
+            db.session.add(registration_user)
+            db.session.commit()
+            return redirect('sign_in')
     except Exception as e:
-        flash(u'Произошло что то странное со стороны сервера.', 'Ooops')
+        flash(u'Упс.')
         flash(str(e))
+        
+        
+    def sign_in_user(user_form):
+        form = user_form
+        try:            
+            user = User.query.filter_by(email=form.email.data).first()
+            if not user and not user.check_password(form.password.data):            
+                flash(u'Email не зарегестрирован, или пароль не верен', 'Ай')
+            else:
+                flash(u'Аутентификация успешна. Добро пожаловать {}, мы без вас скучали.'.format(user.username), 'Успех')
+                login_user(user, remember=form.remember_me.data)
+                return redirect('/')    
+
+            
+        except Exception as e:
+            flash(u'Произошло что то странное со стороны сервера.', 'Ooops')
+            flash(str(e))
 

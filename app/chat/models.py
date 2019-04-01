@@ -1,8 +1,9 @@
 from datetime import datetime
-from app.database import db
+from app.database import db, login
+from flask_login import UserMixin
 import hashlib
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key = True, unique=True)
@@ -31,6 +32,7 @@ class User(db.Model):
         return hashlib.sha224(pas.encode()).hexdigest()
     
 
+
 class Messages(db.Model):
     __tablename__ = 'messages'
 
@@ -46,3 +48,9 @@ class Messages(db.Model):
 
     def __repr__(self):
         return  '<Message from {} [{}]: \n <{}>'.format(self.name, self.date_create, self.message) 
+
+
+
+@login.user_loader
+def login_user(id):
+    return User.query.get(int(id))
