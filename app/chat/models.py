@@ -12,10 +12,10 @@ class User(db.Model):
     description = db.Column(db.String(1500))
     
     def __init__(self, **kwargs):
-        self.name = kwargs['name']
-        self.email = kwargs['email']
-        self.password_hash = self.password_to_hash(kwargs['password'])
-        self.description = kwargs['description']
+        self.username = kwargs.get('name','')
+        self.email = kwargs.get('email', '')
+        self.password_hash = self.password_to_hash(kwargs.get('password',''))
+        self.description = kwargs.get('description', '')
 
 
     def __repr__(self):
@@ -40,15 +40,9 @@ class Messages(db.Model):
     message = db.Column(db.String(1500), nullable= False)
     date_create = db.Column(db.DateTime(),  default=datetime.utcnow)
 
-    def __init__(self):       
-        self.name = kwargs['name']
-        self.user = kwargs['user']
-        self.message = kwargs['message']
+    def __init__(self, **kwargs):        
+        self.user = kwargs.get('user', '')
+        self.message = kwargs.get('message','')
 
     def __repr__(self):
         return  '<Message from {} [{}]: \n <{}>'.format(self.name, self.date_create, self.message) 
-
-
-
-
-
