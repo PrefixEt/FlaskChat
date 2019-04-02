@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 
-from .database import db, login
+from .database import db, login, migrate
 
 
 def create_app():
@@ -9,7 +9,7 @@ def create_app():
     app.config.from_object(os.environ['APP_SETTINGS'])
     login.init_app(app)
     db.init_app(app)
-
+    migrate.init_app(app, db)
     with app.test_request_context():
         db.create_all()
 

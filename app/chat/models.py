@@ -54,3 +54,4 @@ class Messages(db.Model):
 @login.user_loader
 def login_user(id):
     return User.query.get(int(id))
+    

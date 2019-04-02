@@ -21,3 +21,5 @@ include/*
 
 venv/
 .vscode/
+
+migrations/
