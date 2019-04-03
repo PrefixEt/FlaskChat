@@ -8,6 +8,10 @@
 
 <form id = "sign_up" method = "POST" action="">
     {{ form.csrf_token }}
+
+    {% if form.errors %}
+    {{ form.errors }}
+    {% endif %}
   <div class="form-group" method="POST">
       {{ form.email.label }}
       {{ form.email(class_='form-control') }}
@@ -38,6 +42,17 @@
 
   {{ form.submit(class_ = 'btn btn-primary') }}
   <small id="SignInHelp" class="form-text text-muted">Есть аккаунт? Чудно. Войдите <a href="/sign_in">здесь</a>.</small>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for category, message in messages %}
+      <li class="{{ category }}">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  {% endwith %}
+
 </form>
 
 {% endblock content %}

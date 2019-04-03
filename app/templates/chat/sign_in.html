@@ -6,6 +6,9 @@
 
 <form id = "sign_in" method = "POST" action = "">
     {{ form.csrf_token }}
+    {% if form.errors %}
+    {{ form.errors }}
+    {% endif %}
   <div class="form-group">
     <!-- <label for="email">Email</label> -->
     <!-- <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" name="email" value="{{ request.form.get('email', '') }}"> -->

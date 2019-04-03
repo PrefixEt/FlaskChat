@@ -15,7 +15,7 @@ class RegistrationForm(FlaskForm):
     email = StringField(u'Email', [validators.DataRequired(), validators.Email()])
     password= PasswordField(u'Пароль', [
         validators.DataRequired(),
-        validators.EqualTo('repeat_password', message=u'Пароли должны совпадать')
+        validators.EqualTo('password_repeat', message=u'Пароли должны совпадать')
     ])
     password_repeat = PasswordField(u'Повторите пароль', [validators.DataRequired()])
     description = TextAreaField(u'Расскажите о себе(Или не рассказывайте)')

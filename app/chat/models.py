@@ -13,9 +13,9 @@ class User(UserMixin, db.Model):
     description = db.Column(db.String(1500))
     
     def __init__(self, **kwargs):
-        self.username = kwargs.get('name','')
-        self.email = kwargs.get('email', '')
-        self.password_hash = self.password_to_hash(kwargs.get('password',''))
+        self.username = kwargs.get('username')
+        self.email = kwargs.get('email')
+        self.password_hash = self.password_to_hash(kwargs.get('password_hash'))
         self.description = kwargs.get('description', '')
 
 
@@ -24,11 +24,12 @@ class User(UserMixin, db.Model):
     
     def valid_pass(self, password):
         if password:
-            return self.password_hash == self.password_to_hash(password)
+            return self.password_hash == self.password_to_hash(password)   
         return False
 
-    @staticmethod    
-    def password_to_hash(pas):
+       
+    def password_to_hash(self, pas):
+        print(pas)
         return hashlib.sha224(pas.encode()).hexdigest()
     
 
