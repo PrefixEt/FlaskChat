@@ -1,6 +1,7 @@
 from flask import (
     Blueprint,
     render_template,
+    jsonify,
     request,
     flash,
     abort,
@@ -11,7 +12,7 @@ from flask import (
 )
 from flask_login import current_user, login_user, logout_user, login_required
 from .forms import LoginForm, RegistrationForm
-from .models import User, Messages
+from .models import User, Message
 from app.database import db
 module = Blueprint('chat', __name__, url_prefix='/')
 
@@ -28,6 +29,37 @@ def index():
     return redirect('sign_in')
 
 
+
+
+@module.route('/chat', methods=['GET','POST'])
+def chat_controller():
+    pass
+
+
+
+
+@module.route('/chat_post', methods=['POST'])
+def post_messages():
+    try:
+        data = request.json
+        user = data.get('user')
+        message = data.get('message')
+        post_message = Message(
+            user=user,
+            message=message
+            )
+        db.session.add(post_message)
+        db.session.commit()
+    except:
+        flash(u'Ошибка отправки')
+
+
+
+@module.route('/chat_get', methods=['GET'])
+def get_messages():
+    pass
+
+
 @module.route('/sign_in', methods=['GET','POST'])
 def sign_in():
     if g.user is not None and g.user.is_authenticated:
@@ -35,7 +67,8 @@ def sign_in():
     form = LoginForm(request.form)
     if form.validate_on_submit():
         sign_in_user(form)
-    
+        return redirect('/')
+
     return render_template('chat/sign_in.html', form=form)
 
 
@@ -89,7 +122,7 @@ def sign_in_user(user_form):
         else:
             flash(u'Аутентификация успешна. Добро пожаловать {}, мы без вас скучали.'.format(user.username), 'Успех')
             login_user(user, remember=form.remember_me.data)
-            return redirect('/')
+            
         
     except Exception as e:
         flash(u'Произошло что то странное со стороны сервера.', 'Ooops')
